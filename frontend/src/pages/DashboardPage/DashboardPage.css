@@ -1,0 +1,10 @@
+.dashboard-page {
+  margin: auto 52px;
+}
+
+.dashboard-page__search-add-task {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 40px;
+}

@@ -1,0 +1,18 @@
+.add-task-button {
+  width: 20%;
+  min-height: 45px;
+  padding: 5px 0;
+  /* margin-right: 11px; */
+  background-color: var(--element-color-5);
+  color: #fff;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 15px;
+  transition: 0.2s;
+}
