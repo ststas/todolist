@@ -8,6 +8,6 @@ export interface Task {
   _id: string;
   task: string;
   status: Status;
-  deadlineDate: Date;
+  deadlineDate: Date | string;
   createdAt: Date;
 }

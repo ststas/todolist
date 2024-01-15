@@ -21,6 +21,11 @@ export const UpdateTaskPopup: FC = () => {
     reset,
     formState: { errors },
   } = useForm<Task>({
+    defaultValues: {
+      task: '',
+      status: undefined,
+      deadlineDate: undefined,
+    },
     mode: 'onSubmit',
   });
 
@@ -32,6 +37,15 @@ export const UpdateTaskPopup: FC = () => {
       deadlineDate: data.deadlineDate,
     });
   };
+
+  useEffect(() => {
+    const defaults = {
+      task: updatedTask?.task,
+      status: updatedTask?.status,
+      deadlineDate: updatedTask?.deadlineDate?.toString().slice(0, 10),
+    };
+    reset(defaults);
+  }, [updatedTask, reset]);
 
   useEffect(() => {
     if (!isFetching) {
@@ -58,24 +72,21 @@ export const UpdateTaskPopup: FC = () => {
       <div className={`popup__container`}>
         <form onSubmit={handleSubmit(onSubmit)} className="popup__form">
           <label htmlFor="test" className="popup__label">
-            <span>UPDATE TASK</span>
+            <span>EDIT TASK</span>
           </label>
           <textarea
-            {...register('task', { required: true })}
+            {...register('task', {
+              required: true,
+            })}
             className="popup__text-area"
-            defaultValue={updatedTask.task}
           />
           <div className="popup__error">
             {errors.task && <span>This field is required</span>}
           </div>
           <label htmlFor="status" className="popup__label">
-            <span>UPDATE Status</span>
+            <span>EDIT Status</span>
           </label>
-          <select
-            {...register('status')}
-            className="popup__input"
-            value={updatedTask?.status}
-          >
+          <select {...register('status')} className="popup__input">
             {StatusOptions.map((value) => (
               <option
                 key={value}
@@ -88,13 +99,14 @@ export const UpdateTaskPopup: FC = () => {
             ))}
           </select>
           <label htmlFor="status" className="popup__label">
-            <span>UPDATE Deadline Date</span>
+            <span>EDIT Deadline Date</span>
           </label>
           <input
             type="date"
-            {...register('deadlineDate', { required: true })}
+            {...register('deadlineDate', {
+              required: true,
+            })}
             className="popup__input popup__input_date"
-            defaultValue={updatedTask?.deadlineDate?.toString().slice(0, 10)}
           />
           <div className="popup__error">
             {errors.deadlineDate && <span>This field is required</span>}
