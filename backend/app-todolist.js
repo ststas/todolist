@@ -10,10 +10,11 @@ require("dotenv").config();
 const Router = require("./routes");
 const { requestRateLimiter } = require("./utils/requestRateLimiter");
 
-const { PORT = 3000, URI = "mongodb://localhost:27017/todo-listdb" } =
-  process.env;
+const { NODE_ENV, PORT, URI } = process.env;
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(
+  NODE_ENV === "production" ? URI : "mongodb://127.0.0.1:27017/todo-listdb",
+);
 
 const app = express();
 app.use(
