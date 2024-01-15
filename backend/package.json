@@ -1,7 +1,7 @@
 {
-  "name": "express-mesto-gha",
+  "name": "todolist-backend",
   "version": "1.0.0",
-  "description": "Mesto backend",
+  "description": "TodoList Backend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
