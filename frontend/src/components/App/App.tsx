@@ -22,8 +22,8 @@ export const App = () => {
   const [isUpdateTaskPopupOpen, setIsUpdateTaskPopupOpen] =
     useState<boolean>(false);
   const [updatedTask, setUpdatedTask] = useState<Task>({} as Task);
-  const [testToShow, setTestToShow] = useState<Task | undefined>(
-    JSON.parse(localStorage.getItem('testToShow') || '{}') ||
+  const [taskToShow, setTaskToShow] = useState<Task | undefined>(
+    JSON.parse(localStorage.getItem('taskToShow') || '{}') ||
       ({} as Task | undefined)
   );
 
@@ -35,11 +35,11 @@ export const App = () => {
       .catch((err) => console.log('Data load error', err));
   }, [setJoinedData]);
 
-  // test finding function
-  function findTest(id: string): Task | undefined {
+  // task finding function
+  function findTask(id: string): Task | undefined {
     const data: Task | undefined = joinedData?.find((el) => el._id === id);
-    setTestToShow(data);
-    localStorage.setItem('testToShow', JSON.stringify(data));
+    setTaskToShow(data);
+    localStorage.setItem('taskToShow', JSON.stringify(data));
     return;
   }
 
@@ -94,9 +94,9 @@ export const App = () => {
       setDataLength={setDataLength}
       searchText={searchText}
       setSearchText={setSearchText}
-      findTest={findTest}
-      testToShow={testToShow}
-      setTestToShow={setTestToShow}
+      findTask={findTask}
+      taskToShow={taskToShow}
+      setTaskToShow={setTaskToShow}
       direction={direction}
       setDirection={setDirection}
       sortedField={sortedField}

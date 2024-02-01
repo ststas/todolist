@@ -8,9 +8,9 @@ export interface ContextValues {
   setDataLength: Dispatch<SetStateAction<number>>;
   searchText: string;
   setSearchText: Dispatch<SetStateAction<string>>;
-  findTest(id: string): Task | undefined;
-  testToShow: Task | undefined;
-  setTestToShow: Dispatch<SetStateAction<Task | undefined>>;
+  findTask(id: string): Task | undefined;
+  taskToShow: Task | undefined;
+  setTaskToShow: Dispatch<SetStateAction<Task | undefined>>;
   direction: string;
   setDirection: Dispatch<SetStateAction<string>>;
   sortedField: string;

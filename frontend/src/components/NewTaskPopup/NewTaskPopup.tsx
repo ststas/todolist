@@ -45,7 +45,7 @@ export const NewTaskPopup: FC = () => {
     >
       <div className={`popup__container`}>
         <form onSubmit={handleSubmit(onSubmit)} className="popup__form">
-          <label htmlFor="test" className="popup__label">
+          <label htmlFor="task" className="popup__label">
             <span>ADD TASK</span>
           </label>
           <textarea
