@@ -5,3 +5,7 @@
 ## Link
 
 https://todolist.nomoredomainsicu.ru
+
+## Plans
+
+- implement user's authorization
