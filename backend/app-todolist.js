@@ -20,9 +20,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      // "https://todolist.nomoredomainsicu.ru",
-      // "http://api.todolist.nomoredomainsicu.ru",
+      "https://todolist.nomoredomainsicu.ru",
+      "http://api.todolist.nomoredomainsicu.ru",
     ],
     credentials: true,
   }),
