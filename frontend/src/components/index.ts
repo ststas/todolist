@@ -5,6 +5,7 @@ export * from './Header';
 export * from './NewTaskPopup';
 export * from './NothingFound';
 export * from './Popup';
+export * from './Preloader';
 export * from './SearchForm';
 export * from './Table';
 export * from './UpdateTaskPopup';

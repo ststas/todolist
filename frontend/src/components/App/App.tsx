@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import {
   createRoutesFromElements,
@@ -19,6 +20,7 @@ export const App = () => {
   const [sortedField, setSortedField] = useState<string>('');
   const [isNewTaskPopupOpen, setIsNewTaskPopupOpen] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdateTaskPopupOpen, setIsUpdateTaskPopupOpen] =
     useState<boolean>(false);
   const [updatedTask, setUpdatedTask] = useState<Task>({} as Task);
@@ -29,9 +31,13 @@ export const App = () => {
 
   // get tasks from server
   useEffect(() => {
+    setIsLoading(true);
     api
       .getTasks()
-      .then((tasksData) => setJoinedData(tasksData))
+      .then((tasksData) => {
+        setJoinedData(tasksData as Task[]);
+        setIsLoading(false);
+      })
       .catch((err) => console.log('Data load error', err));
   }, [setJoinedData]);
 
@@ -42,37 +48,41 @@ export const App = () => {
     localStorage.setItem('taskToShow', JSON.stringify(data));
     return;
   }
-
+  // task creating function
   function createTask(data: Task) {
     setIsFetching(true);
     api
       .createTask(data)
       .then((newTask) => {
         setIsNewTaskPopupOpen(false);
-        setJoinedData([newTask, ...joinedData]);
+        setJoinedData([newTask as Task, ...joinedData]);
         setIsFetching(false);
       })
       .catch((err) => console.log('Data send error', err));
   }
-
+  // task updating function
   function updateTask(task: Task) {
     setIsFetching(true);
     api.updateTask(task).then((updatedTask) => {
       setJoinedData((state) =>
         state.map((currentTask) =>
-          currentTask._id === task._id ? updatedTask : currentTask
+          currentTask._id === task._id
+            ? (updatedTask as Task)
+            : (currentTask as Task)
         )
       );
       setIsUpdateTaskPopupOpen(false);
       setIsFetching(false);
     });
   }
-
+  // task deleting function
   function deleteTask(id: string) {
+    setIsLoading(true);
     api.deleteTask(id).then(() => {
       setJoinedData((state) =>
         state.filter((currentTask) => currentTask._id !== id)
       );
+      setIsLoading(false);
     });
   }
 
@@ -110,6 +120,8 @@ export const App = () => {
       setIsUpdateTaskPopupOpen={setIsUpdateTaskPopupOpen}
       isFetching={isFetching}
       setIsFetching={setIsFetching}
+      isLoading={isLoading}
+      setIsLoading={setIsLoading}
       updatedTask={updatedTask}
       setUpdatedTask={setUpdatedTask}
     >

@@ -1,5 +1,5 @@
 import './DashboardPage.css';
-import { Table } from '../../components/Table';
+import { Table, Preloader } from '../../components';
 import {
   SearchForm,
   NewTaskPopup,
@@ -10,8 +10,14 @@ import { useContext, useEffect, useMemo } from 'react';
 import { GeneralContext } from '../../contexts/GeneralContext';
 
 export const DashboardPage = () => {
-  const { joinedData, setDataLength, searchText, direction, sortedField } =
-    useContext(GeneralContext);
+  const {
+    joinedData,
+    setDataLength,
+    searchText,
+    direction,
+    sortedField,
+    isLoading,
+  } = useContext(GeneralContext);
 
   //table filtering function
   const filteredData = useMemo(() => {
@@ -60,7 +66,7 @@ export const DashboardPage = () => {
         <SearchForm />
         <AddTaskButton />
       </section>
-      <Table data={sortedData} />
+      {isLoading ? <Preloader /> : <Table data={sortedData} />}
     </section>
   );
 };

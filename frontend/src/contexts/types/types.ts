@@ -24,6 +24,8 @@ export interface ContextValues {
   setIsUpdateTaskPopupOpen: Dispatch<SetStateAction<boolean>>;
   isFetching: boolean;
   setIsFetching: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
   updatedTask: Task;
   setUpdatedTask: Dispatch<SetStateAction<Task>>;
 }

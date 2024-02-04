@@ -20,8 +20,9 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://todolist.nomoredomainsicu.ru",
-      "http://api.todolist.nomoredomainsicu.ru",
+      "http://localhost:3000",
+      // "https://todolist.nomoredomainsicu.ru",
+      // "http://api.todolist.nomoredomainsicu.ru",
     ],
     credentials: true,
   }),
@@ -36,3 +37,5 @@ app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
 app.listen(PORT);
+
+console.log(PORT);

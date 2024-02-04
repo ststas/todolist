@@ -9,11 +9,20 @@ function request(
   const headers: Headers = new Headers();
   headers.set('Content-Type', 'application/json');
   headers.set('Accept', 'application/json');
-  const request: RequestInfo = new Request(`${BASE_URL}/tasks/${url}`, {
-    method: method,
-    headers: headers,
-    body: JSON.stringify(data),
-  });
+  let request: RequestInfo;
+  if (method !== 'GET') {
+    request = new Request(`${BASE_URL}/tasks/${url}`, {
+      method: method,
+      headers: headers,
+      body: JSON.stringify(data),
+    });
+  } else {
+    request = new Request(`${BASE_URL}/tasks/${url}`, {
+      method: method,
+      headers: headers,
+    });
+  }
+
   return fetch(request)
     .then((res) => res.json())
     .then((res) => res as Task[])
@@ -37,5 +46,5 @@ export function updateTask(data: Task): Promise<Task[] | Task | void> {
 }
 
 export function deleteTask(taskId: string): Promise<Task[] | Task | void> {
-  return request('PATCH', taskId, {} as Task);
+  return request('DELETE', taskId, {} as Task);
 }

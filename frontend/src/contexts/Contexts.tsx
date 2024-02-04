@@ -27,6 +27,8 @@ export const Contexts: FC<ContextProviderProps> = ({
   setIsUpdateTaskPopupOpen,
   isFetching,
   setIsFetching,
+  isLoading,
+  setIsLoading,
   updatedTask,
   setUpdatedTask,
 }) => {
@@ -55,6 +57,8 @@ export const Contexts: FC<ContextProviderProps> = ({
         setIsUpdateTaskPopupOpen,
         isFetching,
         setIsFetching,
+        isLoading,
+        setIsLoading,
         updatedTask,
         setUpdatedTask,
       }}

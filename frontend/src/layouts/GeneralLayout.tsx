@@ -1,6 +1,6 @@
+import './GeneralLayout.css';
 import { Outlet } from 'react-router-dom';
 import { Header, Footer } from '../components';
-import './GeneralLayout.css';
 
 export const GeneralLayout = () => {
   return (
