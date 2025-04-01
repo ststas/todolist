@@ -15,10 +15,13 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          printf "%s" "$SSH_PRIVATE_KEY" > private_key.pem
-          cat private_key.pem | head -n 5
-          ls -l private_key.pem
-          chmod 600 private_key.pem
+          printf "%s\n" "$SSH_PRIVATE_KEY" > s_ststas_ssh_key.pem
+          chmod 600 s_ststas_ssh_key.pem
+
+      - name: Debug private key
+        run: |
+          cat s_ststas_ssh_key.pem | head -n 5
+          ls -l s_ststas_ssh_key.pem
 
       - name: Deploy to server
         run: |
