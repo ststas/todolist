@@ -17,11 +17,20 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > aws_rsa.pem
           chmod 600 aws_rsa.pem
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Debug private key
         run: |
           cat aws_rsa.pem | head -n 5
           ls -l aws_rsa.pem
+
+      - name: Check SSH connection
+        run: |
+          ssh -i aws_rsa.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP
+        env:
+          AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to server
         run: |
