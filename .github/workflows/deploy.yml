@@ -34,7 +34,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp -i aws_rsa.pem -v -o StrictHostKeyChecking=no Compression=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
+          scp -i aws_rsa.pem -v -o StrictHostKeyChecking=no -o Compression=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
 
           ssh -i aws_rsa.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
             cd /home/ubuntu/todolist
