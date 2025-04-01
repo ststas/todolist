@@ -20,19 +20,25 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Create and configure swap file (to prevent memory issues)
+      - name: Setup swap and deploy
         run: |
-          ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
-            if [ ! -f /swapfile ]; then
-              sudo fallocate -l 1G /swapfile
-              sudo chmod 600 /swapfile
-              sudo mkswap /swapfile
-              sudo swapon /swapfile
-              echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
-            fi
-          EOF
-        env:
-          AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
+            ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
+              # Настроим swap, если он не существует
+              if [ ! -f /swapfile ]; then
+                sudo fallocate -l 1G /swapfile
+                sudo chmod 600 /swapfile
+                sudo mkswap /swapfile
+                sudo swapon /swapfile
+                echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
+              fi
+              # Деплой на сервере
+              cd /home/ubuntu/todolist
+              docker system prune -af
+              docker-compose down
+              docker-compose up -d
+            EOF
+          env:
+            AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
 
       - name: Deploy to server
         run: |
