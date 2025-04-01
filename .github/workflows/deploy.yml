@@ -1,0 +1,30 @@
+name: Deploy to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Deploy to server
+        run: |
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r ./ ubuntu@your-lightsail-ip:/home/ubuntu/todolist
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@your-lightsail-ip << 'EOF'
+            cd /home/ubuntu/todolist
+            docker-compose down
+            docker-compose up -d
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
