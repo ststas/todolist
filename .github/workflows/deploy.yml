@@ -15,7 +15,7 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          echo ${{ secrets.SSH_PRIVATE_KEY }} > aws_rsa.pem
+          echo "$SSH_PRIVATE_KEY" > aws_rsa.pem
           chmod 600 aws_rsa.pem
 
       - name: Debug private key
