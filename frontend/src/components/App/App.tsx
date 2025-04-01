@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import {
   createRoutesFromElements,
@@ -43,7 +42,9 @@ export const App = () => {
 
   // task finding function
   function findTask(id: string): Task | undefined {
-    const data: Task | undefined = joinedData?.find((el) => el._id === id);
+    const data: Task | undefined = (joinedData ?? []).find(
+      (el) => el._id === id
+    );
     setTaskToShow(data);
     localStorage.setItem('taskToShow', JSON.stringify(data));
     return;

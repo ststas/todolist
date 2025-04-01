@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  backend:
+    build: ./backend
+    container_name: todolist-backend
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: todolist-mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  frontend:
+    container_name: todolist-frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

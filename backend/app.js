@@ -12,17 +12,21 @@ const { requestRateLimiter } = require("./utils/requestRateLimiter");
 
 const { NODE_ENV, PORT, URI } = process.env;
 
-mongoose.connect(
-  NODE_ENV === "production" ? URI : "mongodb://127.0.0.1:27017/todo-listdb",
-);
+mongoose
+  .connect(
+    NODE_ENV !== "production" ? "mongodb://mongo:27017/todo-listdb" : URI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 const app = express();
 app.use(
   cors({
-    origin: [
-      "https://todolist.nomoredomainsicu.ru",
-      "http://api.todolist.nomoredomainsicu.ru",
-    ],
+    origin: ["https://ststas.dev/todolist", "https://ststas.dev/todolist/api"],
     credentials: true,
   }),
 );
