@@ -1,4 +1,4 @@
-name: Deploy to AWS Lightsail
+name: Deploy ststas.dev
 
 on:
   push:
