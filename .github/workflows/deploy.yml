@@ -15,19 +15,19 @@ jobs:
 
       - name: Set up SSH key
         run: |
-          printf "%s\n" "$SSH_PRIVATE_KEY" > s_ststas_ssh_key.pem
-          chmod 600 s_ststas_ssh_key.pem
+          printf "%s\n" "$SSH_PRIVATE_KEY" > aws_rsa.pem
+          chmod 600 aws_rsa.pem
 
       - name: Debug private key
         run: |
-          cat s_ststas_ssh_key.pem | head -n 5
-          ls -l s_ststas_ssh_key.pem
+          cat aws_rsa.pem | head -n 5
+          ls -l aws_rsa.pem
 
       - name: Deploy to server
         run: |
-          scp -i private_key.pem -v -o StrictHostKeyChecking=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
+          scp -i aws_rsa.pem -v -o StrictHostKeyChecking=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
 
-          ssh -i private_key.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
+          ssh -i aws_rsa.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
             cd /home/ubuntu/todolist
             docker-compose down
             docker-compose up -d
