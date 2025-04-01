@@ -32,15 +32,6 @@ jobs:
           AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Deploy to server
-      #   run: |
-      #     scp -o ServerAliveInterval=60 -i aws_rsa.pem -v -o StrictHostKeyChecking=no -o Compression=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
-
-      #     ssh -i aws_rsa.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
-      #       cd /home/ubuntu/todolist
-      #       docker-compose down
-      #       docker-compose up -d
-      #     EOF
       - name: Deploy to server
         run: |
           ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP "mkdir -p /home/ubuntu/todolist && chmod 777 /home/ubuntu/todolist"
@@ -48,7 +39,18 @@ jobs:
           rsync -avz --progress -e "ssh -i aws_rsa.pem -o StrictHostKeyChecking=no" ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
 
           ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
+            if [ ! -f /swapfile ]; then
+              sudo fallocate -l 1G /swapfile
+              sudo chmod 600 /swapfile
+              sudo mkswap /swapfile
+              sudo swapon /swapfile
+              echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
+            fi
+
             cd /home/ubuntu/todolist
+
+            docker system prune -af
+
             docker-compose down
             docker-compose up -d
           EOF

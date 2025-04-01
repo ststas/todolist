@@ -13,12 +13,16 @@ services:
       - PORT=3002
     depends_on:
       - mongo
+    mem_limit: 200m
+    memswap_limit: 250m
 
   mongo:
     container_name: todolist-mongo
     image: mongo:latest
     ports:
       - "27017:27017"
+    mem_limit: 128m
+    memswap_limit: 150m
 
   frontend:
     container_name: todolist-frontend
@@ -27,3 +31,5 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    mem_limit: 120m
+    memswap_limit: 150m
