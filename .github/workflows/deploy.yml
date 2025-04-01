@@ -20,10 +20,8 @@ jobs:
 
       - name: Deploy to server
         run: |
-          # Копирование файлов на сервер
           scp -i private_key.pem -o StrictHostKeyChecking=no -r ./ ubuntu@$AWS_LS_IP:/home/ubuntu/todolist
 
-          # Подключение по SSH и перезапуск Docker контейнера
           ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
             cd /home/ubuntu/todolist
             docker-compose down
