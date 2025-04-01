@@ -4,10 +4,8 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.18.68",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -26,11 +24,9 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "gh-pages": "^6.1.0",
-    "husky": "^8.0.0",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1"
   },
@@ -42,8 +38,6 @@
     "format": "prettier . --write",
     "lint": "eslint . --ext .ts,.tsx .",
     "lint:fix": "npm run lint -- --fix",
-    "prepare": "husky install",
-    "commit": "cz",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -94,16 +88,6 @@
   "lint-staged": {
     "*.{ts,tsx,scss,css,md,html,json,js}": "npm run format",
     "*.{ts,tsx}": "npm run lint"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "if [[ $(git diff --cached --name-only | grep -E '^(src/|:(?!assets/).*$)') ]]; then exec < /dev/tty && npx cz --hook || true; fi\n"
-    }
   },
   "browserslist": {
     "production": [
