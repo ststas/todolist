@@ -20,25 +20,12 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Setup swap and deploy
+      - name: Check SSH connection
         run: |
-          ssh -T -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
-            # Настроим swap, если он не существует
-            if [ ! -f /swapfile ]; then
-              sudo fallocate -l 1G /swapfile
-              sudo chmod 600 /swapfile
-              sudo mkswap /swapfile
-              sudo swapon /swapfile
-              echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
-            fi
-            # Деплой на сервере
-            cd /home/ubuntu/todolist
-            docker system prune -af
-            docker-compose down
-            docker-compose up -d
-          EOF
+          ssh -i aws_rsa.pem -v -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP
         env:
           AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to server
         run: |
