@@ -22,7 +22,7 @@ jobs:
 
       - name: Setup swap and deploy
         run: |
-          ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
+          ssh -T -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP << 'EOF'
             # Настроим swap, если он не существует
             if [ ! -f /swapfile ]; then
               sudo fallocate -l 1G /swapfile
