@@ -26,7 +26,11 @@ mongoose
 const app = express();
 app.use(
   cors({
-    origin: ["https://ststas.dev/todolist", "https://ststas.dev/todolist/api"],
+    origin: [
+      "http://localhost:3000",
+      "https://ststas.dev/todolist",
+      "https://ststas.dev/todolist/api",
+    ],
     credentials: true,
   }),
 );
@@ -39,4 +43,6 @@ app.use("/todolist/api", Router);
 app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
-app.listen(PORT);
+app.listen(PORT || 3002, () => {
+  console.log(`Server running on port ${PORT}`);
+});
