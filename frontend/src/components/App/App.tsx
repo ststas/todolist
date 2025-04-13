@@ -34,7 +34,7 @@ export const App = () => {
     api
       .getTasks()
       .then((tasksData) => {
-        setJoinedData(tasksData as Task[]);
+        setJoinedData((tasksData as Task[]) || ([] as Task[]));
         setIsLoading(false);
       })
       .catch((err) => console.log('Data load error', err));
@@ -56,7 +56,7 @@ export const App = () => {
       .createTask(data)
       .then((newTask) => {
         setIsNewTaskPopupOpen(false);
-        setJoinedData([newTask as Task, ...joinedData]);
+        setJoinedData([newTask as unknown as Task, ...joinedData]);
         setIsFetching(false);
       })
       .catch((err) => console.log('Data send error', err));
@@ -68,7 +68,7 @@ export const App = () => {
       setJoinedData((state) =>
         state.map((currentTask) =>
           currentTask._id === task._id
-            ? (updatedTask as Task)
+            ? (updatedTask as unknown as Task)
             : (currentTask as Task)
         )
       );

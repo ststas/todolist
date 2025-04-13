@@ -5,7 +5,7 @@ function request(
   method: string,
   url: string,
   data: Task
-): Promise<Task[] | Task | void> {
+): Promise<Task[] | void> {
   const headers: Headers = new Headers();
   headers.set('Content-Type', 'application/json');
   headers.set('Accept', 'application/json');
@@ -29,19 +29,19 @@ function request(
     .catch((err) => console.error('Error ', err));
 }
 
-export function getTasks(): Promise<Task[] | Task | void> {
+export function getTasks(): Promise<Task[] | void> {
   return request('GET', '', {} as Task);
 }
 
-export function getTasksById(id: string): Promise<Task[] | Task | void> {
+export function getTasksById(id: string): Promise<Task[] | void> {
   return request('GET', id, {} as Task);
 }
 
-export function createTask(data: Task): Promise<Task[] | Task | void> {
+export function createTask(data: Task): Promise<Task[] | void> {
   return request('POST', '', data);
 }
 
-export function updateTask(data: Task): Promise<Task[] | Task | void> {
+export function updateTask(data: Task): Promise<Task[] | void> {
   return request('PATCH', data._id, data);
 }
 
