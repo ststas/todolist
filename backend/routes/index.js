@@ -1,10 +1,6 @@
 const router = require("express").Router();
 const { handleRouteError } = require("../middlewares/handleRouteError");
 
-router.get("/", (_, res) => {
-  res.status(200).json({ message: "API is working" });
-});
-
 const tasksRouter = require("./tasks");
 
 router.use("/", tasksRouter);
