@@ -26,8 +26,8 @@ mongoose
 const app = express();
 app.use(
   cors({
-    origin: ["https://ststas.dev/todolist", "https://ststas.dev/todolist/api"],
-    credentials: true,
+    origin: ["https://ststas.dev/todolist"],
+    credentials: false,
   }),
 );
 app.use(express.json());
