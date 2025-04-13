@@ -1,6 +1,6 @@
 import { Status } from '../types/types';
 
-export const BASE_URL: string = 'https://ststas.dev';
+export const BASE_URL: string = 'https://ststas.dev/todolist/api';
 
 export const StatusOptions: Status[] = [
   Status.PENDING,
