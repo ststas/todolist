@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   backend:
@@ -11,25 +11,41 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3002
+      - MONGO_URI=mongodb://mongo:27017/todolist
     depends_on:
       - mongo
+    networks:
+      - todolist-network
     mem_limit: 200m
     memswap_limit: 250m
 
   mongo:
+    image: mongo:6
     container_name: todolist-mongo
-    image: mongo:latest
-    ports:
-      - "27017:27017"
+    volumes:
+      - mongo_todolist_data:/data/db
+    networks:
+      - todolist-network
     mem_limit: 128m
     memswap_limit: 150m
+    # ports:
+    #   - "27017:27017"
 
   frontend:
-    container_name: todolist-frontend
     build: ./frontend
+    container_name: todolist-frontend
     ports:
       - "3000:3000"
     depends_on:
       - backend
+    networks:
+      - todolist-network
     mem_limit: 120m
     memswap_limit: 150m
+
+volumes:
+  mongo_todolist_data:
+
+networks:
+  todolist-network:
+    driver: bridge
