@@ -26,11 +26,7 @@ mongoose
 const app = express();
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://ststas.dev/todolist",
-      "https://ststas.dev/todolist/api",
-    ],
+    origin: ["https://ststas.dev/todolist", "https://ststas.dev/todolist/api"],
     credentials: true,
   }),
 );
