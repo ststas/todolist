@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(requestLogger);
 app.use(requestRateLimiter);
-app.use("/", Router);
+app.use("/todolist/api", Router);
 app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
