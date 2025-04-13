@@ -12,7 +12,7 @@ const tasksRouter = require("./tasks");
 // router.delete("/signout", logout);
 
 // router.use("/users", auth, usersRouter);
-router.use("/tasks", tasksRouter);
+router.use("/", tasksRouter);
 
 router.all("*", handleRouteError);
 
