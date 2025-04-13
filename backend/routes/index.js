@@ -20,3 +20,7 @@ module.exports = router;
 // router.delete("/signout", logout);
 
 // router.use("/users", auth, usersRouter);
+
+// router.get("/", (_, res) => {
+//   res.status(200).json({ message: "API is working" });
+// });
