@@ -36,13 +36,14 @@ app.use(helmet());
 app.use(requestLogger);
 app.use(requestRateLimiter);
 app.use("/todolist/api", Router);
+// remove this later
+app.get("/test", (_, res) => {
+  res.send("Test is working");
+});
+
 app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
 app.listen(PORT || 3002, () => {
   console.log(`Server running on port ${PORT}`);
-});
-
-app.get("/test", (_, res) => {
-  res.send("Test is working");
 });
