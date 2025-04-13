@@ -24,6 +24,11 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 const app = express();
+// remove this later
+app.get("/test", (_, res) => {
+  res.send("Test is working");
+});
+
 app.use(
   cors({
     origin: ["https://ststas.dev/todolist", "https://ststas.dev/todolist/api"],
@@ -36,11 +41,6 @@ app.use(helmet());
 app.use(requestLogger);
 app.use(requestRateLimiter);
 app.use("/todolist/api", Router);
-// remove this later
-app.get("/test", (_, res) => {
-  res.send("Test is working");
-});
-
 app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
