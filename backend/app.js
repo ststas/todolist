@@ -42,3 +42,7 @@ app.use(handleErrors);
 app.listen(PORT || 3002, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.get("/test", (_, res) => {
+  res.send("Test is working");
+});
