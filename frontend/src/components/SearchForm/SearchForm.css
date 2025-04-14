@@ -1,6 +1,5 @@
 .search-form {
   display: flex;
-  flex-direction: row;
   min-height: 45px;
   width: 80%;
   margin: 0 11px 0 0;
