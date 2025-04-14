@@ -32,6 +32,35 @@ jobs:
           AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Detect changed folders
+        run: |
+          git fetch origin main
+          CHANGED=$(git diff --name-only origin/main...HEAD)
+          echo "$CHANGED"
+
+          FRONTEND_CHANGED=false
+          BACKEND_CHANGED=false
+
+          if echo "$CHANGED" | grep -q '^frontend/'; then
+            FRONTEND_CHANGED=true
+          fi
+
+          if echo "$CHANGED" | grep -q '^backend/'; then
+            BACKEND_CHANGED=true
+          fi
+
+          echo "$FRONTEND_CHANGED $BACKEND_CHANGED" > changed.txt
+
+      - name: Warn if only .github/ changed
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD)
+
+          if echo "$CHANGED" | grep -qvE '^frontend/|^backend/'; then
+            if echo "$CHANGED" | grep -q '^.github/'; then
+              echo "Only .github/ changed – skipping service rebuild"
+            fi
+          fi
+
       - name: Deploy to server
         run: |
           ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP "mkdir -p /home/ubuntu/todolist && chmod 777 /home/ubuntu/todolist"
@@ -49,16 +78,28 @@ jobs:
 
             cd /home/ubuntu/todolist
 
-            # Build frontend before Docker Compose
-            cd frontend
-            npm ci
-            npm run build
-            cd ..
+            read FRONTEND_CHANGED BACKEND_CHANGED < changed.txt
+
+            if [ "$FRONTEND_CHANGED" = "true" ]; then
+              echo "📦 Changes in frontend — building..."
+              cd frontend
+              npm ci
+              npm run build
+              cd ..
+            else
+              echo "No frontend changes — skipping build"
+            fi
 
             docker system prune -af
-
             docker-compose down
-            docker-compose up -d --build
+
+            if [ "$FRONTEND_CHANGED" = "true" ] || [ "$BACKEND_CHANGED" = "true" ]; then
+              echo "Restarting updated services..."
+              docker-compose up -d --build
+            else
+              echo "No service changes — starting without rebuild"
+              docker-compose up -d
+            fi
           EOF
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
