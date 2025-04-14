@@ -35,7 +35,7 @@ jobs:
       - name: Detect changed folders
         run: |
           git fetch origin main
-          CHANGED=$(git diff --name-only origin/main...HEAD)
+          CHANGED=$(git diff --name-only origin/main..HEAD)
           echo "$CHANGED"
 
           FRONTEND_CHANGED=false
@@ -48,6 +48,9 @@ jobs:
           if echo "$CHANGED" | grep -q '^backend/'; then
             BACKEND_CHANGED=true
           fi
+
+          echo "Frontend changed: $FRONTEND_CHANGED"
+          echo "Backend changed: $BACKEND_CHANGED"
 
           echo "$FRONTEND_CHANGED $BACKEND_CHANGED" > changed.txt
 
