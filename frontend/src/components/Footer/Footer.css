@@ -1,7 +1,7 @@
 .footer {
   display: flex;
-  flex-direction: row;
   margin: auto 52px 44px 48px;
+  justify-content: center;
 }
 
 .footer__title {
