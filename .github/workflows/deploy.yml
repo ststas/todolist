@@ -35,7 +35,8 @@ jobs:
       - name: Detect changed folders
         run: |
           git fetch origin main
-          CHANGED=$(git diff --name-only origin/main HEAD)
+          LAST_COMMIT=$(git rev-parse HEAD~1)
+          CHANGED=$(git diff --name-only $LAST_COMMIT HEAD)
           echo "$CHANGED"
 
           FRONTEND_CHANGED=false
