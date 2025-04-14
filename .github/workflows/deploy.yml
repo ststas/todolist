@@ -35,18 +35,18 @@ jobs:
       - name: Detect changed folders
         run: |
           git fetch origin main
-          LAST_COMMIT=$(git rev-parse HEAD~1)
-          CHANGED=$(git diff --name-only $LAST_COMMIT HEAD)
-          echo "$CHANGED"
+
+          CHANGED_FRONTEND=$(git diff --name-only HEAD~1 HEAD | grep '^frontend/')
+          CHANGED_BACKEND=$(git diff --name-only HEAD~1 HEAD | grep '^backend/')
 
           FRONTEND_CHANGED=false
           BACKEND_CHANGED=false
 
-          if echo "$CHANGED" | grep -q '^frontend/'; then
+          if [ -n "$CHANGED_FRONTEND" ]; then
             FRONTEND_CHANGED=true
           fi
 
-          if echo "$CHANGED" | grep -q '^backend/'; then
+          if [ -n "$CHANGED_BACKEND" ]; then
             BACKEND_CHANGED=true
           fi
 
