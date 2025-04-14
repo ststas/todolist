@@ -32,40 +32,6 @@ jobs:
           AWS_LS_IP: ${{ secrets.AWS_LS_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Detect changed folders
-        run: |
-          git fetch origin main
-          # Получаем список файлов, измененных в последнем коммите на ветке
-          CHANGED=$(git diff --name-only origin/main...HEAD)
-
-          # Проверяем, есть ли изменения в папках frontend и backend
-          FRONTEND_CHANGED=false
-          BACKEND_CHANGED=false
-
-          if echo "$CHANGED" | grep -q '^frontend/'; then
-            FRONTEND_CHANGED=true
-          fi
-
-          if echo "$CHANGED" | grep -q '^backend/'; then
-            BACKEND_CHANGED=true
-          fi
-
-          echo "Change files: $CHANGED"
-          echo "Frontend changed: $FRONTEND_CHANGED"
-          echo "Backend changed: $BACKEND_CHANGED"
-
-          echo "$FRONTEND_CHANGED $BACKEND_CHANGED" > changed.txt
-
-      - name: Warn if only .github/ changed
-        run: |
-          CHANGED=$(git diff --name-only origin/main...HEAD)
-
-          if echo "$CHANGED" | grep -qvE '^frontend/|^backend/'; then
-            if echo "$CHANGED" | grep -q '^.github/'; then
-              echo "ℹ️ Only .github/ changed – skipping service rebuild"
-            fi
-          fi
-
       - name: Deploy to server
         run: |
           ssh -i aws_rsa.pem -o StrictHostKeyChecking=no ubuntu@$AWS_LS_IP "mkdir -p /home/ubuntu/todolist && chmod 777 /home/ubuntu/todolist"
@@ -83,27 +49,16 @@ jobs:
 
             cd /home/ubuntu/todolist
 
-            read FRONTEND_CHANGED BACKEND_CHANGED < changed.txt
-
-            if [ "$FRONTEND_CHANGED" = "true" ]; then
-              echo "📦 Changes in frontend — building..."
-              cd frontend
-              npm ci
-              npm run build
-              cd ..
-              docker-compose up -d --build todolist-frontend
-            else
-              echo "✅ No frontend changes — skipping build"
-            fi
-
-            if [ "$BACKEND_CHANGED" = "true" ]; then
-              echo "📦 Changes in backend — rebuilding..."
-              docker-compose up -d --build todolist-backend
-            else
-              echo "✅ No backend changes — skipping rebuild"
-            fi
+            # Build frontend before Docker Compose
+            cd frontend
+            npm ci
+            npm run build
+            cd ..
 
             docker system prune -af
+
+            docker-compose down
+            docker-compose up -d --build
           EOF
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
