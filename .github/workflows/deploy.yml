@@ -57,7 +57,7 @@ jobs:
 
           if echo "$CHANGED" | grep -qvE '^frontend/|^backend/'; then
             if echo "$CHANGED" | grep -q '^.github/'; then
-              echo "Only .github/ changed – skipping service rebuild"
+              echo "ℹ️ Only .github/ changed – skipping service rebuild"
             fi
           fi
 
@@ -86,20 +86,19 @@ jobs:
               npm ci
               npm run build
               cd ..
+              docker-compose up -d --build todolist-frontend
             else
-              echo "No frontend changes — skipping build"
+              echo "✅ No frontend changes — skipping build"
+            fi
+
+            if [ "$BACKEND_CHANGED" = "true" ]; then
+              echo "📦 Changes in backend — rebuilding..."
+              docker-compose up -d --build todolist-backend
+            else
+              echo "✅ No backend changes — skipping rebuild"
             fi
 
             docker system prune -af
-            docker-compose down
-
-            if [ "$FRONTEND_CHANGED" = "true" ] || [ "$BACKEND_CHANGED" = "true" ]; then
-              echo "Restarting updated services..."
-              docker-compose up -d --build
-            else
-              echo "No service changes — starting without rebuild"
-              docker-compose up -d
-            fi
           EOF
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
