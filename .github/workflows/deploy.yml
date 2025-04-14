@@ -50,6 +50,7 @@ jobs:
             BACKEND_CHANGED=true
           fi
 
+          echo "Change files: $CHANGED"
           echo "Frontend changed: $FRONTEND_CHANGED"
           echo "Backend changed: $BACKEND_CHANGED"
 
