@@ -19,7 +19,7 @@ export const DashboardPage = () => {
     isLoading,
   } = useContext(GeneralContext);
 
-  //table filtering function
+  //table filter function
   const filteredData = useMemo(() => {
     const filteredData = [...joinedData];
     if (!searchText) {
