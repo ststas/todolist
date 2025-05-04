@@ -6,7 +6,7 @@ import { TableProps } from './types/types';
 import { ReactComponent as Icon } from '../../assets/icons/chevron_up.svg';
 import { NothingFound } from '../NothingFound';
 
-export const Table: FC<TableProps> = ({ data }) => {
+export const Table: FC<TableProps> = ({ sortedData }) => {
   const {
     direction,
     setDirection,
@@ -68,7 +68,7 @@ export const Table: FC<TableProps> = ({ data }) => {
     setIsUpdateTaskPopupOpen(true);
   }
 
-  return data?.length === 0 ? (
+  return sortedData?.length === 0 ? (
     <NothingFound />
   ) : (
     <section className="table">
@@ -129,7 +129,7 @@ export const Table: FC<TableProps> = ({ data }) => {
         </div>
       </div>
       <div className="table__body">
-        {data?.map((el) => {
+        {sortedData?.map((el) => {
           return (
             <div
               className={`table__row ${leftBorderColor(el.status as Status)}`}

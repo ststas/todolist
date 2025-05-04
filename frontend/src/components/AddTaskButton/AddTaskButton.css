@@ -2,7 +2,6 @@
   width: 20%;
   min-height: 45px;
   padding: 5px 0;
-  /* margin-right: 11px; */
   background-color: var(--element-color-5);
   color: #fff;
   text-align: center;
@@ -14,5 +13,20 @@
   box-sizing: border-box;
   border: none;
   border-radius: 15px;
-  transition: 0.2s;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.add-task-button_disabled {
+  background-color: var(--element-color-4);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.add-task-button:hover {
+  opacity: 0.8;
+}
+
+.add-task-button:focus-visible {
+  opacity: 0.8;
 }

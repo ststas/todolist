@@ -1,5 +1,5 @@
 import './DashboardPage.css';
-import { Table, Preloader } from '../../components';
+import { Table, Preloader, NothingFound } from '../../components';
 import {
   SearchForm,
   NewTaskPopup,
@@ -64,9 +64,15 @@ export const DashboardPage = () => {
       <UpdateTaskPopup />
       <section className="dashboard-page__search-add-task">
         <SearchForm />
-        <AddTaskButton />
+        <AddTaskButton isLoading={isLoading} />
       </section>
-      {isLoading ? <Preloader /> : <Table data={sortedData} />}
+      {isLoading ? (
+        <Preloader />
+      ) : joinedData.length === 0 ? (
+        <NothingFound noData={!joinedData.length} />
+      ) : (
+        <Table sortedData={sortedData} />
+      )}
     </section>
   );
 };

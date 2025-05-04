@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 20;
   visibility: hidden;
   opacity: 0;
   transition:
@@ -22,6 +22,7 @@
   opacity: 1;
   visibility: visible;
   transition-delay: 0s;
+  z-index: 20;
 }
 
 .popup__container {
