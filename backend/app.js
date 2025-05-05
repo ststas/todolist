@@ -39,6 +39,6 @@ app.use("/todolist/api", Router);
 app.use(errorLogger);
 app.use(errors());
 app.use(handleErrors);
-app.listen(PORT || 3002, () => {
+app.listen(PORT || 4000, () => {
   console.log(`Server running on port ${PORT}`);
 });

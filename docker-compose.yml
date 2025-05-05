@@ -5,12 +5,12 @@ services:
     build: ./backend
     container_name: todolist-backend
     ports:
-      - "3002:3002"
+      - "4000:4000"
     volumes:
       - ./backend:/app
     environment:
       - NODE_ENV=production
-      - PORT=3002
+      - PORT=4000
       - MONGO_URI=mongodb://mongo:27017/todolist
     depends_on:
       - mongo
