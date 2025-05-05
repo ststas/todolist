@@ -1,10 +1,10 @@
 # PROJECT TODO LIST
 
-## (FRONTEND REACT + TYPESCRIPT, BACKEND EXPRESS.JS + MONGODB)
+## (FRONTEND REACT + TYPESCRIPT, BACKEND EXPRESS.JS + MONGODB + DOCKER + GITHUB ACTIONS)
 
 ## Link
 
-https://todolist.nomoredomainsicu.ru
+https://ststas.dev/todolist
 
 ## Plans
 
